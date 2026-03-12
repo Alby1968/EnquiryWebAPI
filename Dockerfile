@@ -10,15 +10,15 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Stage 2: Runtime leggero
+# Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 
-# Copia l'output dal build
+# Copia l’output dal build stage
 COPY --from=build /app/out ./
 
-# Espone la porta interna
+# Espone la porta 8080
 EXPOSE 8080
 
-# Avvia l'app
+# Avvia l’app
 ENTRYPOINT ["dotnet", "ApiNetCoreAngularEnquiry.dll"]
