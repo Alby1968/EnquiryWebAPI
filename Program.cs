@@ -17,7 +17,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowNetlify", policy =>
     {
-        policy.WithOrigins("https://enquiryapiangular.netlify.app")
+        
+        policy.WithOrigins("https://apinetcoreenquiry.netlify.app")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
