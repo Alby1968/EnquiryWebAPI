@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ===== Servizi =====
 builder.Services.AddControllers();
 
 // Database
 builder.Services.AddDbContext<EnquiryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// CORS per Netlify + localhost
+// CORS globale per Netlify + localhost
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -27,9 +28,10 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// ===== Middleware =====
 app.UseRouting();
 
-// ✅ Usa il middleware CORS globale
+// ✅ Applica CORS globale
 app.UseCors();
 
 app.UseAuthorization();
@@ -39,13 +41,13 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Enquiry API V1");
-    c.RoutePrefix = "swagger";
+    c.RoutePrefix = "swagger"; // https://enquirywebapi.onrender.com/swagger
 });
 
-// Controller
+// Controller endpoints
 app.MapControllers();
 
-// Root test
+// Root test per verificare se API gira
 app.MapGet("/", () => "API RUNNING");
 
 // Porta dinamica per Render
